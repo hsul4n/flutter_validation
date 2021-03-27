@@ -9,6 +9,7 @@
    1. [Number](#number)
    1. [Date](#date)
    1. [Custom](#custom)
+1. [Multi Validator](#multi-validator)
 1. [How does it work](#how-does-it-work)
 
 # Getting Started
@@ -155,6 +156,17 @@ Validator.of(context).pattern(
 	AttributeLocalizations.of(context).phone,
 	RegExp(r'01'),
 );
+```
+
+# Multi Validator
+
+As the package depend on [_form_field_validator_](https://pub.dev/packages/form_field_validator#multi-rules-validation) so you can use the same logic using `MultiValidator`:
+
+```dart
+MultiValidator([
+	Validator.of(context).name,
+	// ...
+])
 ```
 
 # How does it work
