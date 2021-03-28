@@ -19,7 +19,7 @@
 ```yaml
 dependencies:
   flutter_validation:
-    git: git://github.com/hsul4n/flutter-validation.git
+    git: git://github.com/hsul4n/flutter_validation.git
 ```
 
 1. Add localizations delegates in your `MaterialApp` widget:
