@@ -1,4 +1,4 @@
-[_Flutter Validation_](https://github.com/hsul4n/flutter-validation) is localized validation package wrapped around [_form_field_validator_](https://pub.dev/packages/form_field_validator) to deliver ready localized validation messages.
+[_Flutter Validation_](https://github.com/hsul4n/flutter_validation) is localized validation package wrapped around [_form_field_validator_](https://pub.dev/packages/form_field_validator) to deliver ready localized validation messages.
 
 1. [Getting Started](#getting-started)
 1. [Validators](#validators)
