@@ -40,10 +40,10 @@ class Validator {
       errorText: ValidationLocalizations.of(_context)!
           .invalid(AttributeLocalizations.of(_context)!.email));
 
-  TextFieldValidator match(
-          String attribute, String otherAttribute, String value) =>
+  TextFieldValidator match(String attribute, String otherAttribute,
+          String Function() otherValue) =>
       ExpressionValidator(
-        (_value) => _value == value,
+        (_value) => _value == otherValue(),
         errorText: ValidationLocalizations.of(_context)!
             .confirmation(attribute, otherAttribute),
       );
