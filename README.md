@@ -152,9 +152,10 @@ Validator.of(context).lessThan(
 ## Custom
 
 ```dart
+// Example for starts with `01`
 Validator.of(context).pattern(
 	AttributeLocalizations.of(context).phone,
-	RegExp(r'01'),
+	r'01',
 );
 ```
 
