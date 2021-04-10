@@ -39,6 +39,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
 
+  String _gender;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,15 +50,42 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Form(
         key: _formKey,
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(
-              initialValue: 'Hello World',
-              decoration: InputDecoration(
-                labelText: AttributeLocalizations.of(context).email,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            children: [
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                  labelText: AttributeLocalizations.of(context).gender,
+                ),
+                items: ['Male', 'Female', 'Other']
+                    .map((gender) => DropdownMenuItem(
+                          child: Text(gender),
+                          value: gender,
+                        ))
+                    .toList(),
+                value: _gender,
+                onChanged: (gender) {
+                  setState(() {
+                    _gender = gender;
+                  });
+                },
+                validator: MultiValidator([
+                  Validator.of(context)
+                      .required(AttributeLocalizations.of(context).gender),
+                  Validator.of(context).contains(
+                    AttributeLocalizations.of(context).gender,
+                    ['Male', 'Female'],
+                  ),
+                ]),
               ),
-              validator: Validator.of(context).email,
-            ),
+              TextFormField(
+                initialValue: 'Hello World',
+                decoration: InputDecoration(
+                  labelText: AttributeLocalizations.of(context).email,
+                ),
+                validator: Validator.of(context).email,
+              ),
+            ],
           ),
         ),
       ),

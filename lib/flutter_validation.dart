@@ -24,7 +24,7 @@ class Validator {
           errorText: ValidationLocalizations.of(_context)!.present(attribute));
 
   MultiValidator required(String attribute) => MultiValidator([
-        ExpressionValidator((value) => value != null,
+        _NullableValidator(
             errorText:
                 ValidationLocalizations.of(_context)!.required(attribute)),
         RequiredValidator(
@@ -140,5 +140,14 @@ class ExpressionValidator extends TextFieldValidator {
   @override
   bool isValid(String? value) {
     return experssion(value);
+  }
+}
+
+class _NullableValidator extends FieldValidator {
+  _NullableValidator({required String errorText}) : super(errorText);
+
+  @override
+  bool isValid(value) {
+    return value != null;
   }
 }
