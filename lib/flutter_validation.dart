@@ -23,8 +23,14 @@ class Validator {
       ExpressionValidator((value) => value!.isEmpty,
           errorText: ValidationLocalizations.of(_context)!.present(attribute));
 
-  TextFieldValidator required(String attribute) => RequiredValidator(
-      errorText: ValidationLocalizations.of(_context)!.required(attribute));
+  MultiValidator required(String attribute) => MultiValidator([
+        ExpressionValidator((value) => value != null,
+            errorText:
+                ValidationLocalizations.of(_context)!.required(attribute)),
+        RequiredValidator(
+            errorText:
+                ValidationLocalizations.of(_context)!.required(attribute))
+      ]);
 
   TextFieldValidator get name =>
       ExpressionValidator((value) => value!.trim().split(' ').length >= 2,
