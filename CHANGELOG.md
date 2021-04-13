@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Fix nested `MutliValidator`.
+
 # 1.0.2
 
 - `Required` also check attribute is not null, useful in dropdown validator.

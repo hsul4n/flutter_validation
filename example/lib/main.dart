@@ -79,11 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]),
               ),
               TextFormField(
-                initialValue: 'Hello World',
                 decoration: InputDecoration(
                   labelText: AttributeLocalizations.of(context).email,
                 ),
-                validator: Validator.of(context).email,
+                validator: MultiValidator([
+                  Validator.of(context)
+                      .required(AttributeLocalizations.of(context).email),
+                  Validator.of(context).email,
+                ]),
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 name: flutter_validation
 description: Ready localized validation messages.
-version: 1.0.2
+version: 1.0.3
 author: hsul4n
 homepage: https://github.com/hsul4n/flutter_validation
 
@@ -18,7 +18,10 @@ dependencies:
     git:
       url: git://github.com/hsul4n/flutter-localizations.git
       path: packages/validation_localizations
-  form_field_validator: ^1.1.0
+  form_field_validator:
+    git:
+      url: git://github.com/hsul4n/form_field_validator.git
+      ref: nested_multi_validator
 
 dev_dependencies:
   flutter_test:

@@ -77,10 +77,12 @@ packages:
   form_field_validator:
     dependency: "direct main"
     description:
-      name: form_field_validator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
+      path: "."
+      ref: nested_multi_validator
+      resolved-ref: "9c4a07d9f7a9bafcb11514cad14d03ca23bfd26b"
+      url: "git://github.com/hsul4n/form_field_validator.git"
+    source: git
+    version: "1.0.2"
   intl:
     dependency: transitive
     description:
