@@ -76,7 +76,7 @@ class Validator {
           errorText:
               ValidationLocalizations.of(_context)!.tooLong(attribute, count));
 
-  MultiValidator lessThan(String attribute, int count) => MultiValidator([
+  MultiValidator lessThan(String attribute, num count) => MultiValidator([
         isNum(attribute),
         ExpressionValidator(
           (String? value) => num.parse(value!) < count,
@@ -85,7 +85,7 @@ class Validator {
         )
       ]);
 
-  MultiValidator lessThanOrEqualTo(String attribute, int count) =>
+  MultiValidator lessThanOrEqualTo(String attribute, num count) =>
       MultiValidator([
         isNum(attribute),
         ExpressionValidator(
@@ -95,7 +95,7 @@ class Validator {
         )
       ]);
 
-  MultiValidator greaterThan(String attribute, int count) => MultiValidator([
+  MultiValidator greaterThan(String attribute, num count) => MultiValidator([
         isNum(attribute),
         ExpressionValidator(
           (String? value) => num.parse(value!) > count,
@@ -104,7 +104,7 @@ class Validator {
         ),
       ]);
 
-  MultiValidator greaterThanOrEqualTo(String attribute, int count) =>
+  MultiValidator greaterThanOrEqualTo(String attribute, num count) =>
       MultiValidator([
         isNum(attribute),
         ExpressionValidator((String? value) => num.parse(value!) >= count,
