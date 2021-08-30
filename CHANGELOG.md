@@ -1,6 +1,10 @@
-# 1.0.4
+# 1.0.5
 
 - Add `PhoneValidatorBuilder` for phone validation.
+
+# 1.0.4
+
+- Change numeric validation to accept num instead of int.
 
 # 1.0.3
 
