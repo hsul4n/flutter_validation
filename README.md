@@ -2,7 +2,8 @@
 
 1. [Getting Started](#getting-started)
 1. [Validators](#validators)
-   1. [Generals](#generals)
+   1. [Common](#common)
+   1. [Phone](#phone)
    1. [Match](#match)
    1. [List](#list)
    1. [Length](#length)
@@ -57,7 +58,7 @@ TextFormField(
 
 # Validators
 
-## Generals
+## Common
 
 ```dart
 Validator.of(context).name // Validate name split legth >= 2
@@ -70,6 +71,25 @@ Validator.of(context).empty(
 	AttributeLocalizations.of(context).name,
 ) // Validate name to be empty
 ```
+
+## Phone
+
+```dart
+PhoneValidatorBuilder(
+	countryCode: '<COUNTRY_CODE>', // US
+	builder: (context, phoneValidation) {
+		return TextFormField(
+			// ...
+			validator: phoneValidation, // That's it (:
+			// ...
+		);
+	},
+)
+```
+
+- Note that _PhoneValidatorBuilder_ depends on _FormState_ so make sure to wrap it with _Form_ widget.
+
+Big thanks to Google's [libphonenumber](https://github.com/google/libphonenumber) (native) and [Emostar](https://github.com/emostar) [libphonenumber](https://pub.dev/packages/libphonenumber) (flutter) which help us to delivery phone validation.
 
 ## Match
 

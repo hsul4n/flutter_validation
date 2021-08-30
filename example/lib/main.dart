@@ -88,6 +88,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   Validator.of(context).email,
                 ]),
               ),
+              PhoneValidatorBuilder(
+                countryCode: 'YE',
+                builder: (context, phoneValidation) {
+                  return TextFormField(
+                    validator: MultiValidator([
+                      Validator.of(context)
+                          .required(AttributeLocalizations.of(context).phone),
+                      phoneValidation,
+                    ]),
+                    decoration: InputDecoration(
+                      labelText: AttributeLocalizations.of(context).phone,
+                    ),
+                    keyboardType: TextInputType.phone,
+                  );
+                },
+              ),
             ],
           ),
         ),

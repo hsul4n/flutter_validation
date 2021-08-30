@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - libphonenumber (0.0.1):
+    - Flutter
+    - libPhoneNumber-iOS
+  - libPhoneNumber-iOS (0.9.15)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
+
+SPEC REPOS:
+  trunk:
+    - libPhoneNumber-iOS
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  libphonenumber:
+    :path: ".symlinks/plugins/libphonenumber/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1

@@ -1,3 +1,7 @@
+# 1.0.4
+
+- Add `PhoneValidatorBuilder` for phone validation.
+
 # 1.0.3
 
 - Fix nested `MutliValidator`.

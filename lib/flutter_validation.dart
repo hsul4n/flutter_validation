@@ -3,6 +3,7 @@ library flutter_validation;
 import 'package:attribute_localizations/attribute_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:libphonenumber/libphonenumber.dart';
 import 'package:validation_localizations/validation_localizations.dart';
 
 export 'package:form_field_validator/form_field_validator.dart';
@@ -11,6 +12,62 @@ export 'package:attribute_localizations/attribute_localizations.dart'
     show AttributeLocalizations;
 export 'package:validation_localizations/validation_localizations.dart'
     show ValidationLocalizations;
+
+class PhoneValidatorBuilder extends StatefulWidget {
+  final String countryCode;
+
+  final Widget Function(
+    BuildContext context,
+    TextFieldValidator validator,
+  ) builder;
+
+  PhoneValidatorBuilder({
+    Key? key,
+    required this.countryCode,
+    required this.builder,
+  }) : super(key: key);
+
+  @override
+  _PhoneValidatorBuilderState createState() => _PhoneValidatorBuilderState();
+}
+
+class _PhoneValidatorBuilderState extends State<PhoneValidatorBuilder> {
+  bool _isValid = false;
+  String _lastValue = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(
+      context,
+      ExpressionValidator(
+        (value) {
+          final isChanged = _lastValue != value!;
+
+          /// Check that value is changed to be aware from
+          /// overflow while calling validate
+          if (isChanged) {
+            PhoneNumberUtil.isValidPhoneNumber(
+              phoneNumber: value,
+              isoCode: widget.countryCode,
+            )
+                .then((value) => _isValid = value!)
+
+                /// Make sure to call validate to ensure
+                /// next validation that has correct value
+                .whenComplete(Form.of(context)!.validate);
+          }
+
+          // Stor last
+          _lastValue = value;
+
+          return _isValid;
+        },
+        errorText: ValidationLocalizations.of(context)!
+            .invalid(AttributeLocalizations.of(context)!.phone),
+      ),
+    );
+  }
+}
 
 class Validator {
   final BuildContext _context;
