@@ -15,53 +15,51 @@ export 'package:validation_localizations/validation_localizations.dart'
 
 class PhoneValidatorBuilder extends StatefulWidget {
   final String countryCode;
+  final TextEditingController? controller;
 
   final Widget Function(
     BuildContext context,
-    TextFieldValidator validator,
+    TextEditingController controller,
+    TextFieldValidator phoneValidation,
   ) builder;
 
   PhoneValidatorBuilder({
     Key? key,
+    this.controller,
     required this.countryCode,
     required this.builder,
   }) : super(key: key);
 
   @override
-  _PhoneValidatorBuilderState createState() => _PhoneValidatorBuilderState();
+  PhoneValidatorBuilderState createState() => PhoneValidatorBuilderState();
 }
 
-class _PhoneValidatorBuilderState extends State<PhoneValidatorBuilder> {
-  bool _isValid = false;
-  String _lastValue = '';
+class PhoneValidatorBuilderState extends State<PhoneValidatorBuilder> {
+  /// Set true due to [autovalidate]
+  bool _isValid = true;
+
+  late final TextEditingController _controller =
+      widget.controller ?? TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller.addListener(() {
+      PhoneNumberUtil.isValidPhoneNumber(
+        phoneNumber: _controller.text,
+        isoCode: widget.countryCode,
+      ).then((value) => _isValid = value!);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return widget.builder(
       context,
+      _controller,
       ExpressionValidator(
-        (value) {
-          final isChanged = _lastValue != value!;
-
-          /// Check that value is changed to be aware from
-          /// overflow while calling validate
-          if (isChanged) {
-            PhoneNumberUtil.isValidPhoneNumber(
-              phoneNumber: value,
-              isoCode: widget.countryCode,
-            )
-                .then((value) => _isValid = value!)
-
-                /// Make sure to call validate to ensure
-                /// next validation that has correct value
-                .whenComplete(Form.of(context)!.validate);
-          }
-
-          // Stor last
-          _lastValue = value;
-
-          return _isValid;
-        },
+        (value) => _isValid,
         errorText: ValidationLocalizations.of(context)!
             .invalid(AttributeLocalizations.of(context)!.phone),
       ),

@@ -90,8 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               PhoneValidatorBuilder(
                 countryCode: 'YE',
-                builder: (context, phoneValidation) {
+                builder: (context, controller, phoneValidation) {
                   return TextFormField(
+                    controller: controller,
                     validator: MultiValidator([
                       Validator.of(context)
                           .required(AttributeLocalizations.of(context).phone),
@@ -109,7 +110,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _formKey.currentState.validate(),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Have fun (:')));
+          }
+        },
         tooltip: 'Submit',
         child: Icon(Icons.done),
       ), // This trailing comma makes auto-formatting nicer for build methods.

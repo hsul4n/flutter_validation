@@ -1,3 +1,7 @@
+# 1.0.5-hotfix
+
+- Fix `PhoneValidatorBuilder` when validate and save.
+
 # 1.0.5
 
 - Add `PhoneValidatorBuilder` for phone validation.
