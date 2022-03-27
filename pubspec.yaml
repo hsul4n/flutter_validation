@@ -18,13 +18,13 @@ dependencies:
   libphonenumber: ^2.0.2
   form_field_validator:
     git:
-      url: git://github.com/hsul4n/form_field_validator.git
+      url: https://github.com/hsul4n/form_field_validator.git
       ref: nested_multi_validator
 
   # localizations
   validation_localizations:
     git:
-      url: git://github.com/hsul4n/flutter-localizations.git
+      url: https://github.com/hsul4n/flutter-localizations.git
       path: packages/validation_localizations
 
 dev_dependencies:
