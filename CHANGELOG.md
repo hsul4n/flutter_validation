@@ -1,3 +1,9 @@
+# 1.1.0
+
+- Improve phone validation.
+- Add raw & natinal phone validation.
+- Add nullable validation for dropdown.
+
 # 1.0.5-hotfix
 
 - Fix `PhoneValidatorBuilder` when validate and save.

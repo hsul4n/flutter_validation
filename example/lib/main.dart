@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -39,7 +39,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
 
-  String _gender;
+  String? _gender;
+  List<String> _genders = ['Male', 'Female', 'Other'];
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             children: [
-              DropdownButtonFormField(
+              DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  labelText: AttributeLocalizations.of(context).gender,
+                  labelText: AttributeLocalizations.of(context)!.gender,
                 ),
-                items: ['Male', 'Female', 'Other']
+                items: _genders
                     .map((gender) => DropdownMenuItem(
                           child: Text(gender),
                           value: gender,
@@ -66,44 +67,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 value: _gender,
                 onChanged: (gender) {
                   setState(() {
-                    _gender = gender;
+                    _gender = gender!;
                   });
                 },
                 validator: MultiValidator([
-                  Validator.of(context)
-                      .required(AttributeLocalizations.of(context).gender),
-                  Validator.of(context).contains(
-                    AttributeLocalizations.of(context).gender,
-                    ['Male', 'Female'],
+                  Validator.of(context)!
+                      .required(AttributeLocalizations.of(context)!.gender),
+                  Validator.of(context)!.contains(
+                    AttributeLocalizations.of(context)!.gender,
+                    _genders,
                   ),
                 ]),
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: AttributeLocalizations.of(context).email,
+                  labelText: AttributeLocalizations.of(context)!.email,
                 ),
                 validator: MultiValidator([
-                  Validator.of(context)
-                      .required(AttributeLocalizations.of(context).email),
-                  Validator.of(context).email,
+                  Validator.of(context)!
+                      .required(AttributeLocalizations.of(context)!.email),
+                  Validator.of(context)!.email,
                 ]),
               ),
-              PhoneValidatorBuilder(
-                countryCode: 'YE',
-                builder: (context, controller, phoneValidation) {
-                  return TextFormField(
-                    controller: controller,
-                    validator: MultiValidator([
-                      Validator.of(context)
-                          .required(AttributeLocalizations.of(context).phone),
-                      phoneValidation,
-                    ]),
-                    decoration: InputDecoration(
-                      labelText: AttributeLocalizations.of(context).phone,
-                    ),
-                    keyboardType: TextInputType.phone,
-                  );
-                },
+              TextFormField(
+                validator: MultiValidator([
+                  Validator.of(context)!
+                      .required(AttributeLocalizations.of(context)!.phone),
+                  Validator.of(context)!.phone,
+                ]),
+                decoration: InputDecoration(
+                  labelText: AttributeLocalizations.of(context)!.phone,
+                ),
+                keyboardType: TextInputType.phone,
               ),
             ],
           ),
@@ -111,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
+          if (_formKey.currentState!.validate()) {
+            _formKey.currentState!.save();
 
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text('Have fun (:')));

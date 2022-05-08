@@ -4,6 +4,8 @@
 1. [Validators](#validators)
    1. [Common](#common)
    1. [Phone](#phone)
+      1. [International](#international)
+      1. [National](#national)
    1. [Match](#match)
    1. [List](#list)
    1. [Length](#length)
@@ -50,6 +52,7 @@ TextFormField(
 	decoration: InputDecoration(
 		labelText: AttributeLocalizations.of(context).email,
 	),
+	// It's as easys as
 	validator: Validator.of(context).email,
 )
 
@@ -74,22 +77,19 @@ Validator.of(context).empty(
 
 ## Phone
 
+### International
+
 ```dart
-PhoneValidatorBuilder(
-	countryCode: '<COUNTRY_CODE>', // US
-	builder: (context, phoneValidation) {
-		return TextFormField(
-			// ...
-			validator: phoneValidation, // That's it (:
-			// ...
-		);
-	},
-)
+Validator.of(context).phone
 ```
 
-- Note that _PhoneValidatorBuilder_ depends on _FormState_ so make sure to wrap it with _Form_ widget.
+### National
 
-Big thanks to Google's [libphonenumber](https://github.com/google/libphonenumber) (native) and [Emostar](https://github.com/emostar) [libphonenumber](https://pub.dev/packages/libphonenumber) (flutter) which help us to delivery phone validation.
+```dart
+Validator.of(context).phoneNational(
+	IsoCode.US
+);
+```
 
 ## Match
 
@@ -172,10 +172,10 @@ Validator.of(context).lessThan(
 ## Custom
 
 ```dart
-// Example for starts with `01`
+// Example for starts with `https`
 Validator.of(context).pattern(
-	AttributeLocalizations.of(context).phone,
-	r'01',
+	'Url',
+	r'^(http|https)://',
 );
 ```
 
@@ -185,6 +185,9 @@ As the package depend on [_form_field_validator_](https://pub.dev/packages/form_
 
 ```dart
 MultiValidator([
+	Validator.of(context).required(
+		AttributeLocalizations.of(context).name
+	),
 	Validator.of(context).name,
 	// ...
 ])

@@ -3,7 +3,7 @@ library flutter_validation;
 import 'package:attribute_localizations/attribute_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:libphonenumber/libphonenumber.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'package:validation_localizations/validation_localizations.dart';
 
 export 'package:form_field_validator/form_field_validator.dart';
@@ -12,60 +12,7 @@ export 'package:attribute_localizations/attribute_localizations.dart'
     show AttributeLocalizations;
 export 'package:validation_localizations/validation_localizations.dart'
     show ValidationLocalizations;
-
-class PhoneValidatorBuilder extends StatefulWidget {
-  final String countryCode;
-  final TextEditingController? controller;
-
-  final Widget Function(
-    BuildContext context,
-    TextEditingController controller,
-    TextFieldValidator phoneValidation,
-  ) builder;
-
-  PhoneValidatorBuilder({
-    Key? key,
-    this.controller,
-    required this.countryCode,
-    required this.builder,
-  }) : super(key: key);
-
-  @override
-  PhoneValidatorBuilderState createState() => PhoneValidatorBuilderState();
-}
-
-class PhoneValidatorBuilderState extends State<PhoneValidatorBuilder> {
-  /// Set true due to [autovalidate]
-  bool _isValid = true;
-
-  late final TextEditingController _controller =
-      widget.controller ?? TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller.addListener(() {
-      PhoneNumberUtil.isValidPhoneNumber(
-        phoneNumber: _controller.text,
-        isoCode: widget.countryCode,
-      ).then((value) => _isValid = value!);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(
-      context,
-      _controller,
-      ExpressionValidator(
-        (value) => _isValid,
-        errorText: ValidationLocalizations.of(context)!
-            .invalid(AttributeLocalizations.of(context)!.phone),
-      ),
-    );
-  }
-}
+export 'package:dart_countries/src/generated/iso_codes.enum.dart';
 
 class Validator {
   final BuildContext _context;
@@ -79,7 +26,7 @@ class Validator {
           errorText: ValidationLocalizations.of(_context)!.present(attribute));
 
   MultiValidator required(String attribute) => MultiValidator([
-        _NullableValidator(
+        NullableValidator(
             errorText:
                 ValidationLocalizations.of(_context)!.required(attribute)),
         RequiredValidator(
@@ -100,6 +47,20 @@ class Validator {
   TextFieldValidator get email => EmailValidator(
       errorText: ValidationLocalizations.of(_context)!
           .invalid(AttributeLocalizations.of(_context)!.email));
+
+  TextFieldValidator get phone => ExpressionValidator(
+        (value) => value != null ? PhoneNumber.fromRaw(value).validate() : true,
+        errorText: ValidationLocalizations.of(_context)!
+            .invalid(AttributeLocalizations.of(_context)!.phone),
+      );
+
+  TextFieldValidator phoneNational(IsoCode isoCode) => ExpressionValidator(
+        (value) => value != null
+            ? PhoneNumber.fromNational(isoCode, value).validate()
+            : true,
+        errorText: ValidationLocalizations.of(_context)!
+            .invalid(AttributeLocalizations.of(_context)!.phone),
+      );
 
   TextFieldValidator match(String attribute, String otherAttribute,
           String Function() otherValue) =>
@@ -187,19 +148,17 @@ class Validator {
 }
 
 class ExpressionValidator extends TextFieldValidator {
-  final Function(String? value) experssion;
+  final bool Function(String? value) experssion;
 
   ExpressionValidator(this.experssion, {required String errorText})
       : super(errorText);
 
   @override
-  bool isValid(String? value) {
-    return experssion(value);
-  }
+  bool isValid(String? value) => experssion(value);
 }
 
-class _NullableValidator extends FieldValidator {
-  _NullableValidator({required String errorText}) : super(errorText);
+class NullableValidator extends FieldValidator {
+  NullableValidator({required String errorText}) : super(errorText);
 
   @override
   bool isValid(value) {
